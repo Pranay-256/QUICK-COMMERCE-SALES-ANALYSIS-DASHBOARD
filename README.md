@@ -1,6 +1,6 @@
-# 🛒 Ecommerce Sales Analysis Dashboard
+# 🛒 QuickCommerce Sales Analysis Dashboard
 
-An interactive and business-focused **Power BI Dashboard** developed to analyze ecommerce sales performance, customer behavior, product contribution, store-wise sales trends, and Year-over-Year (YOY) business growth.
+An interactive and business-focused **Power BI Dashboard** developed to analyze quickcommerce sales performance, customer behavior, product contribution, store-wise sales trends, and Year-over-Year (YOY) business growth.
 
 This project demonstrates complete Business Intelligence workflow including:
 
