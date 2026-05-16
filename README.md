@@ -1,4 +1,4 @@
-# 🛒 QuickCommerce Sales Analysis Dashboard
+# 🛒 Quick Commerce Sales Analysis Dashboard
 
 An interactive and business-focused **Power BI Dashboard** developed to analyze quickcommerce sales performance, customer behavior, product contribution, store-wise sales trends, and Year-over-Year (YOY) business growth.
 
