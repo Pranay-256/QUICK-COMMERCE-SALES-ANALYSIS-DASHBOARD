@@ -18,7 +18,7 @@ This project demonstrates complete Business Intelligence workflow including:
 
 # 🏢 What We Did for the Business
 
-As part of this project, a full **stakeholder meeting simulation** was conducted where Claude AI acted as a Prime Mart stakeholder and asked live, unscripted questions based on the dashboard. The analyst answered each question by deeply analysing the data in real time — uncovering insights that were not pre-prepared.
+As part of this project, a full **stakeholder meeting simulation** was conducted where Claude AI acted as a Prime Mart stakeholder and asked live, unscripted questions based on the dashboard. I  answered each question by deeply analysing the data in real time like a business analyst — uncovering insights that were not pre-prepared.
 
 ### Key Business Findings Delivered:
 
