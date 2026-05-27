@@ -1,6 +1,6 @@
-# 🛒 Quick Commerce Sales Analysis Dashboard
+# 🛒 Prime Mart Sales and Customer Analysis Dashboard
 
-An interactive and business-focused **Power BI Dashboard** developed to analyze quickcommerce sales performance, customer behavior, product contribution, store-wise sales trends, and Year-over-Year (YOY) business growth.
+An interactive and business-focused **Power BI Dashboard** developed to analyze Prime Mart's retail sales performance, customer retention and churn behavior, product contribution, store-wise sales trends, and Year-over-Year (YOY) business growth.
 
 This project demonstrates complete Business Intelligence workflow including:
 
@@ -8,16 +8,35 @@ This project demonstrates complete Business Intelligence workflow including:
 - Data Cleaning & Transformation
 - Data Modeling
 - DAX Calculations
-- Time Intelligence
+- Time Intelligence & Month Intelligence
+- Customer Retention & Churn Analysis
 - Interactive Dashboard Design
 - KPI Reporting
-- Business Insights Generation
+- Stakeholder Meeting Simulation & Business Insights Generation
+
+---
+
+# 🏢 What We Did for the Business
+
+As part of this project, a full **stakeholder meeting simulation** was conducted where Claude AI acted as a Prime Mart stakeholder and asked live, unscripted questions based on the dashboard. The analyst answered each question by deeply analysing the data in real time — uncovering insights that were not pre-prepared.
+
+### Key Business Findings Delivered:
+
+- 📦 **Supply Chain Risk Identified** — A January 2025 sales campaign caused product stock depletion, resulting in a **-32.1% quantity drop** and **-25.7% order drop** in February. The root cause was traced to aggressive monthly targets exceeding supplier capacity.
+
+- 🔄 **Customer Retention Crisis Flagged** — With a **62.05% churn rate** in 2025, it was found that 1,250 out of 2,010 previous year customers were lost. The February stockout was identified as the primary driver of permanent customer switching.
+
+- 📍 **Narendra Nagar Geographical Insight** — The top revenue store (+93.4% YOY growth) was discovered to be a **trekking supply stop** in Uttarakhand, not a standard retail location. Its 100% churn is natural due to the transient customer base. Word-of-mouth was identified as its only marketing channel.
+
+- ⭐ **Premium Dominance Confirmed** — Premium and High-Priced categories together contribute **64% of total revenue**, while Budget products contribute only 4% and dilute brand image.
+
+- 💡 **7-Point Strategic Action Plan Delivered** — Covering loyalty programs, supply chain stabilisation, premium product focus, new customer offers, sustainable marketing, NPS tracking, and steady monthly revenue targeting.
 
 ---
 
 # 📌 Project Objective
 
-The objective of this project is to help businesses monitor and analyze ecommerce performance using interactive visualizations and KPIs.
+The objective of this project is to help businesses monitor and analyze retail performance using interactive visualizations and KPIs.
 
 The dashboard helps stakeholders:
 
@@ -27,6 +46,8 @@ The dashboard helps stakeholders:
 - Identify top contributing products and customers
 - Monitor transaction trends
 - Analyze location-wise store sales
+- Track customer retention and churn rates
+- Segment customers into New and Returning groups
 - Generate business insights for decision making
 
 ---
@@ -40,7 +61,7 @@ The dashboard helps stakeholders:
 | DAX | Measures & Calculations |
 | Excel / CSV | Data Source |
 | Data Modeling | Relationship Management |
-| Time Intelligence Functions | YOY Analysis |
+| Time Intelligence Functions | YOY & MOM Analysis |
 
 ---
 
@@ -68,7 +89,7 @@ The project follows a dimensional data modeling approach.
 The project follows a complete ETL pipeline:
 
 ## 1️⃣ Extract
-Imported raw ecommerce datasets into Power BI.
+Imported raw retail datasets into Power BI.
 
 ## 2️⃣ Transform
 Performed data cleaning using Power Query:
@@ -124,16 +145,33 @@ CALENDAR(
 
 ---
 
-# 📊 Dashboard Features
+# 📊 Dashboard Pages
 
-## ✅ KPI Cards
+## Page 1 — Sales Performance Analysis
 
+## Page 2 — Customer Retention and Churn Analysis
+
+---
+
+# ✅ KPI Cards
+
+### Sales Performance Page
 - Total Sales
 - Total Quantity
 - Customers
-- Avg Unit Price
+- Avg Revenue Per Customer
 - Total Orders
 - Total Stores
+
+### Customer Retention Page
+- New Customers
+- Returning Customers
+- Customer Retention Rate %
+- Customer Churn Rate %
+- New Customers Revenue
+- Returning Customers Revenue
+- Avg Revenue by New Customer
+- Avg Revenue by Returning Customer
 
 ---
 
@@ -181,9 +219,11 @@ The dashboard contains interactive slicers for:
 | Line Chart | Monthly Sales Trend |
 | Matrix Table | Customer Contribution Analysis |
 | Map Visual | Store Location Sales |
-| Bar Chart | Area-wise Sales |
-| Donut Chart | Price Bucket Analysis |
-| Product Matrix | Product Contribution Analysis |
+| Bar Chart | Area-wise Sales & Store Rankings |
+| Donut Chart | Price Bucket Analysis & New vs Returning Revenue |
+| Clustered Bar Chart | New vs Returning Customers Yearly Trend |
+| Area Line Chart | New vs Returning Customers Monthly Trend |
+| Funnel Visual | Customer Retention Funnel |
 
 ---
 
@@ -197,27 +237,23 @@ Using this dashboard, businesses can:
 - Monitor regional sales performance
 - Compare transaction types
 - Detect low-performing areas
+- Track customer retention and churn rates
+- Identify revenue from new vs returning customers
 - Support data-driven decision making
 
 ---
 
 # 🖼️ Dashboard Preview
 
-## Dashboard Image 1
+## Sales Performance Analysis
 
 ![Dashboard Image 1](Images/image%201.png)
 
 ---
 
-## Dashboard Image 2
+## Customer Retention and Churn Analysis
 
 ![Dashboard Image 2](Images/image%202.png)
-
----
-
-## Dashboard Image 3
-
-![Dashboard Image 3](Images/image%203.png)
 
 ---
 
@@ -226,17 +262,13 @@ Using this dashboard, businesses can:
 ## General KPIs
 
 ```DAX
-TOTAL SALES = SUM(fact_table[total_price])
-
-TOTAL QUANTITY = SUM(fact_table[quantity])
-
-CUSTOMERS = DISTINCTCOUNT(fact_table[customer_key])
-
-AVG UNIT PRICE = AVERAGE(fact_table[unit_price])
-
-Total Stores = DISTINCTCOUNT(fact_table[store_key])
-
-Total Transactions = COUNTROWS(fact_table)
+TOTAL SALES              = SUM(fact_table[total_price])
+TOTAL QUANTITY           = SUM(fact_table[quantity])
+CUSTOMERS                = DISTINCTCOUNT(fact_table[customer_key])
+AVG UNIT PRICE           = AVERAGE(fact_table[unit_price])
+Total Stores             = DISTINCTCOUNT(fact_table[store_key])
+Total Transactions       = COUNTROWS(fact_table)
+AVG REVENUE PER CUSTOMER = DIVIDE([TOTAL SALES], [CUSTOMERS], 0)
 ```
 
 ---
@@ -268,15 +300,46 @@ IF(
 
 ---
 
+## New vs Returning Customers Example Measure
+
+```DAX
+NEW CUSTOMERS = 
+VAR currentyear      = SELECTEDVALUE(dim_time[Year])
+VAR prevyear         = currentyear - 1
+VAR currentcustomers = CALCULATETABLE(VALUES(fact_table[customer_key]), dim_time[year] = currentyear)
+VAR prevcustomers    = CALCULATETABLE(VALUES(fact_table[customer_key]), ALL(dim_time), dim_time[year] = prevyear)
+RETURN
+IF(ISBLANK(prevyear), "NA",
+    COUNTROWS(EXCEPT(currentcustomers, prevcustomers)))
+```
+
+---
+
+## Customer Retention Rate
+
+```DAX
+CUSTOMER RETENTION RATE % = 
+VAR prevyear          = SELECTEDVALUE(dim_time[year]) - 1
+VAR lastyearcustomers = CALCULATE(DISTINCTCOUNT(fact_table[customer_key]), ALL(dim_time), dim_time[year] = prevyear)
+VAR RC                = [RETURNING CUSTOMERS]
+VAR RR                = DIVIDE(RC, lastyearcustomers, 0)
+RETURN RR
+```
+
+---
+
 # 🚀 Project Highlights
 
 ✅ Complete ETL Workflow  
-✅ Time Intelligence Analysis  
+✅ Time Intelligence & Month Intelligence Analysis  
 ✅ Hybrid Star Schema Modeling  
-✅ Interactive Dashboard Design  
-✅ YOY KPI Analysis  
+✅ Interactive Dual-Page Dashboard Design  
+✅ YOY & MOM KPI Analysis  
 ✅ Tooltip Reporting  
 ✅ Advanced DAX Calculations  
+✅ Customer Retention & Churn Analysis  
+✅ New vs Returning Customer Segmentation  
+✅ Stakeholder Meeting Simulation  
 ✅ Business Insights Generation  
 
 ---
@@ -290,25 +353,33 @@ IF(
 - Data Visualization
 - Business Intelligence
 - Time Intelligence
+- Customer Retention Analytics
 - KPI Reporting
 - Dashboard Design
+- Business Storytelling
+
+---
+
+# ⚠️ Disclaimer
+
+The name **Prime Mart** used in this project is entirely fictional and has been chosen solely to give the project a realistic, business-like identity. It does not target, represent, or intend any resemblance to any real business, brand, or organization. All datasets used are completely imaginary and do not reflect the actual operations or financials of any real company. This project was created purely for **educational and portfolio purposes**.
 
 ---
 
 # 📌 Conclusion
 
-The Ecommerce Sales Analysis Dashboard transforms raw ecommerce data into meaningful business insights through interactive visualizations and advanced KPI analysis.
+The Prime Mart Sales and Customer Analysis Dashboard transforms raw retail data into meaningful business insights through interactive visualizations, advanced KPI analysis, and real-world stakeholder simulation.
 
 This project demonstrates practical implementation of:
 
-- Data Cleaning
-- Data Transformation
+- Data Cleaning & Transformation
 - Data Modeling
-- Time Intelligence
+- Time Intelligence & Month Intelligence
+- Customer Retention & Churn Analysis
 - Interactive Reporting
-- Business Analytics
+- Business Analytics & Stakeholder Communication
 
-The dashboard helps businesses make data-driven decisions by providing clear visibility into sales performance, customer trends, and operational insights.
+The dashboard helps businesses make data-driven decisions by providing clear visibility into sales performance, customer trends, retention health, and operational insights.
 
 ---
 
