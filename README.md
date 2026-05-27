@@ -205,7 +205,6 @@ Implemented using **Power BI Tooltip Page**.
 The dashboard contains interactive slicers for:
 
 - Year & Quarter
-- Order Hour
 - Transaction Type
 - Store Location Hierarchy
 
